@@ -1,0 +1,790 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    color: #ffffff;
+
+    /* Deep purple cosmic background */
+    background:
+        radial-gradient(
+            circle at 15% 20%,
+            rgba(147, 51, 234, 0.45),
+            transparent 25%
+        ),
+        radial-gradient(
+            circle at 85% 30%,
+            rgba(168, 85, 247, 0.35),
+            transparent 25%
+        ),
+        radial-gradient(
+            circle at 70% 85%,
+            rgba(126, 34, 206, 0.45),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 20% 85%,
+            rgba(88, 28, 135, 0.5),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #05000d,
+            #120022,
+            #21003d,
+            #08000f
+        );
+
+    background-attachment: fixed;
+}
+#starField {
+    position: fixed;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    pointer-events: none;
+
+    overflow: hidden;
+
+    z-index: 0;
+}
+.star {
+    position: absolute;
+
+    width: 3px;
+    height: 3px;
+
+    background: #ffffff;
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 5px #ffffff,
+        0 0 10px #c084fc,
+        0 0 18px #a855f7;
+
+    animation: twinkle 3s infinite ease-in-out;
+}
+.star.large {
+    width: 5px;
+    height: 5px;
+
+    box-shadow:
+        0 0 8px #ffffff,
+        0 0 18px #f5d76e,
+        0 0 30px #a855f7;
+}
+@keyframes twinkle {
+
+    0%,
+    100% {
+        opacity: 0.2;
+        transform: scale(0.7);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.5);
+    }
+}
+body::before {
+    content: "";
+
+    position: fixed;
+
+    width: 600px;
+    height: 600px;
+
+    top: -150px;
+    left: -150px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(168, 85, 247, 0.35),
+            rgba(88, 28, 135, 0.15),
+            transparent 70%
+        );
+
+    filter: blur(20px);
+
+    animation: galaxyMove 12s infinite alternate ease-in-out;
+
+    pointer-events: none;
+
+    z-index: 0;
+}
+body::after {
+    content: "";
+
+    position: fixed;
+
+    width: 700px;
+    height: 700px;
+
+    right: -200px;
+    bottom: -200px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(102, 36, 168, 0.35),
+            rgba(126, 34, 206, 0.15),
+            transparent 70%
+        );
+
+    filter: blur(25px);
+
+    animation: galaxyMove 15s infinite alternate-reverse ease-in-out;
+
+    pointer-events: none;
+
+    z-index: 0;
+}
+@keyframes galaxyMove {
+
+    from {
+        transform: scale(1) rotate(0deg);
+    }
+
+    to {
+        transform: scale(1.3) rotate(25deg);
+    }
+}
+.container {
+    position: relative;
+
+    z-index: 2;
+
+    width: 90%;
+    max-width: 1000px;
+
+    margin: auto;
+
+    padding: 55px 20px;
+}
+h1 {
+    text-align: center;
+
+    font-size: clamp(35px, 6vw, 65px);
+
+    color: #ffd75a;
+
+    margin-bottom: 10px;
+
+    text-shadow:
+        0 0 5px #ffd75a,
+        0 0 15px #ffd75a,
+        0 0 30px #a855f7,
+        0 0 50px #7e22ce;
+
+    animation: titleGlow 3s infinite alternate;
+}
+@keyframes titleGlow {
+
+    from {
+        text-shadow:
+            0 0 5px #ffd75a,
+            0 0 15px #ffd75a,
+            0 0 25px #a855f7;
+    }
+
+    to {
+        text-shadow:
+            0 0 10px #fff3a3,
+            0 0 25px #ffd75a,
+            0 0 45px #a855f7,
+            0 0 70px #7e22ce;
+    }
+}
+.subtitle {
+    text-align: center;
+
+    color: #e9d5ff;
+
+    font-size: 20px;
+
+    margin-bottom: 35px;
+
+    text-shadow: 0 0 10px #a855f7;
+}
+form,
+#destinyZone,
+.archive {
+
+    position: relative;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(32, 5, 55, 0.92),
+            rgba(9, 1, 20, 0.94)
+        );
+
+    border: 1px solid #ffd75a;
+
+    border-radius: 18px;
+
+    padding: 30px;
+
+    margin-top: 25px;
+
+    box-shadow:
+        0 0 10px rgba(255, 215, 90, 0.35),
+        0 0 30px rgba(168, 85, 247, 0.25),
+        inset 0 0 30px rgba(126, 34, 206, 0.12);
+
+    backdrop-filter: blur(10px);
+}
+form::before,
+#destinyZone::before,
+.archive::before {
+
+    content: "✦";
+
+    position: absolute;
+
+    top: 8px;
+    left: 15px;
+
+    color: #ffd75a;
+
+    font-size: 20px;
+
+    text-shadow:
+        0 0 8px #ffd75a,
+        0 0 15px #ffd75a;
+}
+form::after,
+#destinyZone::after,
+.archive::after {
+
+    content: "✦";
+
+    position: absolute;
+
+    bottom: 8px;
+    right: 15px;
+
+    color: #ffd75a;
+
+    font-size: 20px;
+
+    text-shadow:
+        0 0 8px #ffd75a,
+        0 0 15px #ffd75a;
+}
+h2 {
+    text-align: center;
+
+    color: #ffd75a;
+
+    font-size: 30px;
+
+    text-shadow:
+        0 0 8px #ffd75a,
+        0 0 20px #a855f7;
+
+    margin-top: 0;
+}
+label {
+
+    display: block;
+
+    margin-top: 18px;
+    margin-bottom: 8px;
+
+    color: #fcd34d;
+
+    font-size: 17px;
+
+    text-align: left;
+}
+input,
+select {
+
+    width: 100%;
+
+    padding: 15px;
+
+    border-radius: 8px;
+
+    border: 1px solid #a855f7;
+
+    background:
+        rgba(10, 0, 20, 0.9);
+
+    color: white;
+
+    font-size: 16px;
+
+    outline: none;
+
+    transition: 0.3s;
+}
+input:focus,
+select:focus {
+
+    border-color: #ffd75a;
+
+    box-shadow:
+        0 0 8px #ffd75a,
+        0 0 20px rgba(168, 85, 247, 0.5);
+}
+input::placeholder {
+
+    color: #bfa6d9;
+}
+button {
+
+    padding: 14px 25px;
+
+    margin-top: 20px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffd75a,
+            #f5b942
+        );
+
+    color: #24103b;
+
+    font-family: Georgia, serif;
+
+    font-weight: bold;
+
+    font-size: 16px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 0 10px rgba(255, 215, 90, 0.4);
+
+    transition:
+        transform 0.25s,
+        box-shadow 0.25s;
+}
+
+
+button:hover {
+
+    transform: translateY(-3px) scale(1.03);
+
+    box-shadow:
+        0 0 10px #ffd75a,
+        0 0 25px #ffd75a,
+        0 0 40px #a855f7;
+}
+
+
+button:active {
+
+    transform: scale(0.96);
+}
+
+#summary {
+
+    margin: 25px auto;
+
+    max-width: 800px;
+
+    padding: 20px;
+
+    border: 1px solid #9333ea;
+
+    border-radius: 12px;
+
+    background:
+        rgba(61, 12, 93, 0.4);
+
+    box-shadow:
+        inset 0 0 20px rgba(168, 85, 247, 0.15);
+}
+
+
+#summary strong {
+
+    color: #ffd75a;
+
+    text-shadow: 0 0 8px #ffd75a;
+}
+
+
+.blessed {
+
+    color: #8affb0;
+
+    text-shadow:
+        0 0 10px #4ade80,
+        0 0 20px #22c55e;
+}
+
+
+.cursed {
+
+    color: #ff7777;
+
+    text-shadow:
+        0 0 10px #ef4444,
+        0 0 20px #b91c1c;
+}
+
+#tarotCards {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: stretch;
+
+    gap: 25px;
+
+    flex-wrap: wrap;
+
+    margin-top: 30px;
+}
+
+
+.tarot-card {
+
+    position: relative;
+
+    width: 210px;
+
+    min-height: 260px;
+
+    padding: 25px 18px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    text-align: center;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(126, 34, 206, 0.35),
+            rgba(20, 3, 35, 0.95)
+        );
+
+    border: 2px solid #ffd75a;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 0 8px #ffd75a,
+        0 0 25px rgba(168, 85, 247, 0.5),
+        inset 0 0 25px rgba(168, 85, 247, 0.15);
+
+    transition: 0.4s;
+
+    animation: cardAppear 0.8s ease forwards;
+}
+
+
+.tarot-card:hover {
+
+    transform:
+        translateY(-12px)
+        rotate(1deg)
+        scale(1.04);
+
+    box-shadow:
+        0 0 15px #ffd75a,
+        0 0 35px #a855f7,
+        0 0 60px rgba(168, 85, 247, 0.6);
+}
+
+
+.tarot-card::before {
+
+    content: "✦";
+
+    position: absolute;
+
+    top: 8px;
+    left: 12px;
+
+    color: #ffd75a;
+
+    text-shadow: 0 0 10px #ffd75a;
+}
+
+
+.tarot-card::after {
+
+    content: "✦";
+
+    position: absolute;
+
+    bottom: 8px;
+    right: 12px;
+
+    color: #ffd75a;
+
+    text-shadow: 0 0 10px #ffd75a;
+}
+
+
+.tarot-card h3 {
+
+    color: #ffd75a;
+
+    font-size: 21px;
+
+    text-shadow: 0 0 10px #ffd75a;
+}
+
+
+.tarot-card p {
+
+    color: #f3e8ff;
+
+    line-height: 1.6;
+}
+
+
+@keyframes cardAppear {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(40px)
+            rotateY(90deg);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            rotateY(0);
+
+    }
+}
+
+
+.archive {
+
+    margin-top: 35px;
+}
+
+
+.archive > p {
+
+    text-align: center;
+
+    color: #d8b4fe;
+}
+
+
+/* Search layout */
+
+.search-container {
+
+    display: flex;
+
+    gap: 10px;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+}
+
+
+.search-container input {
+
+    flex: 1;
+
+    min-width: 200px;
+}
+
+
+.search-container button {
+
+    margin-top: 0;
+}
+
+
+/* Search result */
+
+#searchResult {
+
+    margin-top: 20px;
+
+    padding: 15px;
+
+    color: #ffd75a;
+
+    text-align: center;
+
+    text-shadow: 0 0 8px #ffd75a;
+}
+
+
+/* Archive */
+
+#fortuneArchive {
+
+    margin-top: 25px;
+}
+
+
+.archive-item {
+
+    padding: 14px 18px;
+
+    margin: 9px 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(76, 29, 149, 0.35),
+            rgba(30, 5, 50, 0.6)
+        );
+
+    border-left: 2px solid #ffd75a;
+
+    border-radius: 5px;
+
+    color: #eadcff;
+
+    transition: 0.3s;
+}
+
+
+.archive-item:hover {
+
+    transform: translateX(8px);
+
+    color: #ffffff;
+
+    border-left:
+        5px solid #ffd75a;
+
+    box-shadow:
+        0 0 15px rgba(168, 85, 247, 0.4);
+}
+
+
+#cosmicExplosion {
+
+    position: fixed;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    z-index: 10;
+}
+.explosion-star {
+
+    position: absolute;
+
+    width: 5px;
+    height: 5px;
+
+    background: #ffd75a;
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 8px #ffd75a,
+        0 0 20px #a855f7;
+
+    animation: explode 1.2s ease-out forwards;
+}
+@keyframes explode {
+
+    0% {
+
+        transform:
+            translate(0, 0)
+            scale(1);
+
+        opacity: 1;
+    }
+
+    100% {
+
+        transform:
+            translate(
+                var(--x),
+                var(--y)
+            )
+            scale(0);
+
+        opacity: 0;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .container {
+
+        width: 95%;
+
+        padding: 35px 10px;
+    }
+
+    form,
+    #destinyZone,
+    .archive {
+
+        padding: 20px;
+    }
+
+    h1 {
+
+        font-size: 38px;
+    }
+
+    .tarot-card {
+
+        width: 100%;
+
+        max-width: 280px;
+    }
+
+    .search-container {
+
+        flex-direction: column;
+    }
+
+
+    .search-container input,
+    .search-container button {
+
+        width: 100%;
+    }
+}

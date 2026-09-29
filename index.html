@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mystical Fortune Teller</title>
+<link rel="icon" href="my web icon.jpg" type="image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<centre>
+<div class="wrap">
+
+  <h1>&#10022; Ranti Cosmos &#10022;</h1>
+  <p class="tagline">The stars have been waiting for you...</p>
+
+  <!-- ========== 1. FORM ========== -->
+  <section class="panel">
+    <div class="form-row">
+      <div class="field">
+        <label for="nameInput">Your Name</label>
+        <input type="text" id="nameInput" placeholder="Enter your name..." autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="zodiacSelect">Your Zodiac Sign</label>
+        <select id="zodiacSelect">
+          <option value="Aries">&#9800; Aries</option>
+          <option value="Taurus">&#9801; Taurus</option>
+          <option value="Gemini">&#9802; Gemini</option>
+          <option value="Cancer">&#9803; Cancer</option>
+          <option value="Leo">&#9804; Leo</option>
+          <option value="Virgo">&#9805; Virgo</option>
+          <option value="Libra">&#9806; Libra</option>
+          <option value="Scorpio">&#9807; Scorpio</option>
+          <option value="Sagittarius">&#9808; Sagittarius</option>
+          <option value="Capricorn">&#9809; Capricorn</option>
+          <option value="Aquarius">&#9810; Aquarius</option>
+          <option value="Pisces">&#9811; Pisces</option>
+        </select>
+      </div>
+    </div>
+    <button class="reveal-btn" id="revealBtn">Reveal My Fate</button>
+  </section>
+
+  <!-- ========== DESTINY ZONE ========== -->
+  <section class="panel">
+    <h2>The Destiny Zone</h2>
+    <div id="destinyZone">
+      <p class="placeholder">Your destiny awaits. Enter your name and reveal your fate...</p>
+    </div>
+  </section>
+
+  <!-- ========== PAST READINGS ========== -->
+  <section class="panel">
+    <h2>Past Readings</h2>
+    <ul id="history">
+      <li>No readings yet. The future is unwritten.</li>
+    </ul>
+  </section>
+
+  <!-- ========== SEARCH & SORT ========== -->
+  <section class="panel">
+    <h2>Explore the Cosmos</h2>
+    <div class="search-row">
+      <input type="text" id="searchInput" placeholder="Search the archive (try &quot;wind&quot; or &quot;EMAIL&quot;)...">
+      <button id="searchBtn">Search</button>
+      <button id="sortBtn" class="secondary">Sort A&ndash;Z</button>
+    </div>
+    <div id="searchResult"></div>
+    <ol id="archive"></ol>
+  </section>
+
+</div>
+
+</centre>
+
+<script src="script.js"></script>
+</body>
+</html>
