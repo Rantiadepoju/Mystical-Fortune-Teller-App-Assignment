@@ -252,22 +252,6 @@ button:active {
     text-shadow: 0 0 8px #ffd75a;
 }
 
-/* #cosmicExplosion {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 10;
-}
-.explosion-star {
-    position: absolute;
-    width: 5px;
-    height: 5px;
-    background: #ffd75a;
-    border-radius: 50%;
-    box-shadow: 0 0 8px #ffd75a, 0 0 20px #a855f7;
-    animation: explode 1.2s ease-out forwards;
-} */
-
 @media (max-width: 600px) {
     .container {
         width: 95%;

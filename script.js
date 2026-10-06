@@ -17,362 +17,247 @@ const fortunes = [
 // Starts completely empty
 const pastReadings = [];
 
-function check(){
-    let yourName = document.getElementById("Your-Name").value;
-    
+
+// Zodiac signs in order. The position in this list (1-12) is used in the score.
+const zodiacSigns = [
+  "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo",
+  "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"
+];
+
+// A small extra message for each sign's element
+const zodiacElements = {
+  Aries: "Fire", Leo: "Fire", Sagittarius: "Fire",
+  Taurus: "Earth", Virgo: "Earth", Capricorn: "Earth",
+  Gemini: "Air", Libra: "Air", Aquarius: "Air",
+  Cancer: "Water", Scorpio: "Water", Pisces: "Water"
+};
+
+
+// 2. GRAB ELEMENTS FROM THE PAGE
+const nameInput    = document.getElementById("nameInput");
+const zodiacSelect = document.getElementById("zodiacSelect");
+const revealBtn    = document.getElementById("revealBtn");
+const destinyZone  = document.getElementById("destinyZone");
+const historyList  = document.getElementById("history");
+const searchInput  = document.getElementById("searchInput");
+const searchBtn    = document.getElementById("searchBtn");
+const sortBtn      = document.getElementById("sortBtn");
+const searchResult = document.getElementById("searchResult");
+const archiveList  = document.getElementById("archive");
+
+// 3. COSMIC LUCK SCORE (based on name + zodiac sign + today's date)
+function calculateLuckScore(name, sign) {
+  // Step 1: turn the name into a number by adding up each letter's code
+  const cleanName = name.toLowerCase().replace(/\s/g, ""); // "Ada Obi" -> "adaobi"
+  let nameValue = 0;
+  for (let i = 0; i < cleanName.length; i++) {
+    nameValue += cleanName.charCodeAt(i);
+  }
+
+  // Step 2: turn the zodiac sign into a number from 1 to 12
+  const signValue = zodiacSigns.indexOf(sign) + 1;
+
+  // Step 3: today's date, so the score changes every day (a "daily" score)
+  const today = new Date();
+  const dateValue = today.getFullYear() * 372 + (today.getMonth() + 1) * 31 + today.getDate();
+
+  // Step 4: mix everything together, then squeeze it into the range 1 - 100
+  const mixed = nameValue * 7 + signValue * 13 + dateValue * 3;
+  return (mixed % 100) + 1;
 }
 
-
-// Get Html Element
-
-// const fortuneForm = document.getElementById("fortuneForm");
-// const nameInput = document.getElementById("name");
-// const zodiacInput = document.getElementById("zodiac");
-
-// const summary = document.getElementById("summary");
-// const tarotCards = document.getElementById("tarotCards");
-// const destinyZone = document.getElementById("destinyZone");
-
-// const searchInput = document.getElementById("searchInput");
-// const searchButton = document.getElementById("searchButton");
-// const sortButton = document.getElementById("sortButton");
-
-// const searchResult = document.getElementById("searchResult");
-// const fortuneArchive = document.getElementById("fortuneArchive");
-
-
-
-// // Destiny Teller
-
-// fortuneForm.addEventListener("submit", function(event) {
-
-//     // Prevent page from refreshing
-//     event.preventDefault();
-
-//     const name = nameInput.value.trim();
-//     const zodiac = zodiacInput.value;
-
-
-//     // Validate Name
-
-//     if (name === "") {
-
-//         alert("Please enter your name before revealing your fate.");
-
-//         return;
-
-//     } else {
-
-//         console.log("Name entered:", name);
-
-//     }
-
-//     // COSMIC LUCK SCORE
-//     // Random number from 1 - 100
-
-//     const luckScore = Math.floor(Math.random() * 100) + 1;
-
-
-//     // Ternary Operator
-
-//     const status = luckScore > 50 ? "Blessed" : "Cursed";
-
-
-//     // Display Summary
-
-//     summary.innerHTML = `
-//         <p>
-//             Welcome, <strong>${name}</strong>!
-//         </p>
-
-//         <p>
-//             Zodiac Sign: <strong>${zodiac || "Unknown"}</strong>
-//         </p>
-
-//         <p>
-//             Your Cosmic Luck Score is:
-//             <strong>${luckScore}/100</strong>
-//         </p>
-
-//         <p class="${status === "Blessed" ? "blessed" : "cursed"}">
-//             Your cosmic status is:
-//             <strong>${status}</strong>
-//         </p>
-//     `;
-
-
-//     // 3 distinct fortune
-
-//     const selectedFortunes = [];
-
-
-//     while (selectedFortunes.length < 3) {
-
-//         const randomIndex = Math.floor(
-//             Math.random() * fortunes.length
-//         );
-
-//         const randomFortune = fortunes[randomIndex];
-
-
-//         // Make sure we don't select the same fortune twice
-
-//         if (!selectedFortunes.includes(randomFortune)) {
-
-//             selectedFortunes.push(randomFortune);
-
-//         }
-
-//     }
-
-
-//     // Display tarot Card
-
-//     tarotCards.innerHTML = "";
-
-//     selectedFortunes.forEach(function(fortune, index) {
-
-//         const card = document.createElement("div");
-
-//         card.classList.add("tarot-card");
-
-//         card.innerHTML = `
-//             <h3>Card ${index + 1}</h3>
-//             <p>${fortune}</p>
-//         `;
-
-//         tarotCards.appendChild(card);
-
-//     });
-
-
-//     // Save reading
-
-//     pastReadings.push({
-//         name: name,
-//         zodiac: zodiac,
-//         luckScore: luckScore,
-//         status: status,
-//         cards: selectedFortunes
-//     });
-
-
-//     console.log("Past Readings:", pastReadings);
-
-// })
-
-
-// // ========================================
-// // DISPLAY FORTUNE ARCHIVE
-// // ========================================
-
-// function displayFortunes() {
-
-//     fortuneArchive.innerHTML = "";
-
-//     fortunes.forEach(function(fortune) {
-
-//         const item = document.createElement("div");
-
-//         item.classList.add("archive-item");
-
-//         item.textContent = fortune;
-
-//         fortuneArchive.appendChild(item);
-
-//     });
-
-// }
-
-
-// Search Fortune 
-
-searchButton.addEventListener("click", function() {
-
-    const searchTerm = searchInput.value.trim().toLowerCase();
-
-
-    if (searchTerm === "") {
-
-        searchResult.textContent = "Please enter a keyword to search.";
-
-        return;
-
+// Destiny Teller (runs when the button is clicked)
+function revealFate() {
+  const name = nameInput.value.trim();
+  const sign = zodiacSelect.value;
+
+  // Conditional: make sure a name was typed
+  if (name === "") {
+    alert("The spirits need your name! Please enter it first.");
+    nameInput.focus();
+    return;
+  }
+
+  const luckScore = calculateLuckScore(name, sign);
+
+  // Ternary operator: above 50 = Blessed, otherwise Cursed
+  const status = luckScore > 50 ? "Blessed" : "Cursed";
+
+  const cards = drawThreeCards();
+
+  // Save this reading in the history array
+  pastReadings.push({
+    name: name,
+    sign: sign,
+    score: luckScore,
+    status: status,
+    cards: cards,
+    time: new Date().toLocaleTimeString()
+  });
+
+  renderDestiny(name, sign, luckScore, status, cards);
+  renderHistory();
+}
+
+// 3-Tarrot Spread: randomly pick 3 fortunes from the array, without repeating any
+function drawThreeCards() {
+  const deck = fortunes.slice();   // copy, so the original array is never changed
+  const picked = [];
+
+  for (let i = 0; i < 3; i++) {
+    const randomIndex = Math.floor(Math.random() * deck.length);
+    picked.push(deck[randomIndex]);
+    deck.splice(randomIndex, 1);   // remove it so the same card can't appear twice
+  }
+
+  return picked;
+}
+
+function renderDestiny(name, sign, score, status, cards) {
+  destinyZone.innerHTML = ""; // clear the old reading
+
+  // ----- Summary -----
+  const summary = document.createElement("div");
+  summary.className = "summary";
+
+  const title = document.createElement("h2");
+  title.textContent = "Greetings, " + name + " of " + sign;
+
+  const element = document.createElement("div");
+  element.style.color = "var(--muted)";
+  element.textContent = "Ruled by the element of " + zodiacElements[sign];
+
+  const scoreEl = document.createElement("div");
+  scoreEl.className = "score";
+  scoreEl.textContent = score + " / 100";
+
+  const label = document.createElement("div");
+  label.style.color = "var(--muted)";
+  label.textContent = "Your Cosmic Luck Score today";
+
+  const statusEl = document.createElement("div");
+  statusEl.className = "status " + status;
+  statusEl.textContent = "You are " + status;
+
+  summary.append(title, element, scoreEl, label, statusEl);
+  destinyZone.appendChild(summary);
+
+  // ----- Tarot cards -----
+  const cardsWrap = document.createElement("div");
+  cardsWrap.className = "cards";
+  const positions = ["Past", "Present", "Future"];
+
+  cards.forEach(function (text, i) {
+    const card = document.createElement("div");
+    card.className = "card";
+
+    const num = document.createElement("div");
+    num.className = "num";
+    num.textContent = positions[i].toUpperCase();
+
+    const symbol = document.createElement("div");
+    symbol.className = "symbol";
+    symbol.textContent = "\u2726";
+
+    const p = document.createElement("p");
+    p.textContent = text;
+
+    card.append(num, symbol, p);
+    cardsWrap.appendChild(card);
+  });
+
+  destinyZone.appendChild(cardsWrap);
+}
+
+function renderHistory() {
+  historyList.innerHTML = "";
+
+  // newest first, using a copy so pastReadings keeps its original order
+  pastReadings.slice().reverse().forEach(function (r) {
+    const li = document.createElement("li");
+    const who = document.createElement("strong");
+    who.textContent = r.name + " (" + r.sign + ")";
+    li.append(who, " at " + r.time + " \u2014 " + r.score + " (" + r.status + "): " + r.cards.join(" | "));
+    historyList.appendChild(li);
+  });
+}
+
+// fortune archive sort and search
+function renderArchive(highlight) {
+  archiveList.innerHTML = "";
+
+  fortunes.forEach(function (f) {
+    const li = document.createElement("li");
+
+    if (highlight && f === highlight.text) {
+      li.appendChild(makeHighlighted(f, highlight.keyword));
+    } else {
+      li.textContent = f;
     }
 
-//     // ========================================
-//     // ARRAY.FIND() + STRING.INCLUDES()
-//     // ========================================
-
-//     const foundFortune = fortunes.find(function(fortune) {
-
-//         return fortune.toLowerCase().includes(searchTerm);
-
-//     });
-
-//     if (foundFortune) {
-
-//         searchResult.innerHTML = `
-//             ✨ Fortune found:
-//             <strong>${foundFortune}</strong>
-//         `;
-
-//     } else {
-
-//         searchResult.textContent =
-//             "The cosmos could not find a fortune containing that word.";
-
-//     }
-
-// });
-
-// sortButton.addEventListener("click", function() {
-
-//     fortunes.sort();
-
-//     displayFortunes();
-
-// });
-
-// // galaxy stars
-
-// const starField = document.getElementById("starField");
-
-// // Create 180 stars
-
-// for (let i = 0; i < 180; i++) {
-
-//     const star = document.createElement("div");
-
-//     star.classList.add("star");
-
-//     // Randomly make some stars larger
-
-//     if (Math.random() > 0.85) {
-//         star.classList.add("large");
-//     }
-
-//     // Random position
-
-//     star.style.left = Math.random() * 100 + "%";
-//     star.style.top = Math.random() * 100 + "%";
-
-
-//     // Random animation speed
-
-//     star.style.animationDuration =
-//         2 + Math.random() * 4 + "s";
-
-
-//     // Random animation delay
-
-//     star.style.animationDelay =
-//         Math.random() * 5 + "s";
-
-
-//     starField.appendChild(star);
-// }
-
-// function createCosmicExplosion() {
-
-//     const explosion =
-//         document.getElementById("cosmicExplosion");
-
-
-//     // Remove old explosion particles
-
-//     explosion.innerHTML = "";
-
-
-//     // Create 70 particles
-
-//     for (let i = 0; i < 70; i++) {
-
-//         const star =
-//             document.createElement("div");
-
-//         star.classList.add("explosion-star");
-
-//         // Random direction
-
-//         const angle =
-//             Math.random() * Math.PI * 2;
-
-
-//         // Random distance
-
-//         const distance =
-//             100 + Math.random() * 500;
-
-
-//         const x =
-//             Math.cos(angle) * distance;
-
-//         const y =
-//             Math.sin(angle) * distance;
-
-
-//         star.style.left = "50%";
-//         star.style.top = "45%";
-
-
-//         star.style.setProperty(
-//             "--x",
-//             `${x}px`
-//         );
-
-//         star.style.setProperty(
-//             "--y",
-//             `${y}px`
-//         );
-
-//         // Random delay
-
-//         star.style.animationDelay =
-//             Math.random() * 0.2 + "s";
-
-//         explosion.appendChild(star);
-//     }
-//     // Remove particles after animation
-
-//     setTimeout(function() {
-
-//         explosion.innerHTML = "";
-
-//     }, 1500);
-// }
-
-const revealBtn = document.getElementById("revealBtn");
-
-revealBtn.addEventListener("click", function () {
-
-    const name = nameInput.value.trim();
-    const zodiac = zodiacInput.value;
-
-    // Check that the user entered their name
-    if (name === "") {
-        alert("Please enter your name.");
-        return;
-    }
-
-    // Check that the user selected a zodiac sign
-    if (zodiac === "") {
-        alert("Please select your zodiac sign.");
-        return;
-    }
-
-//     // Generate a random score between 1 and 100
-//     const cosmicLuckScore = Math.floor(Math.random() * 100) + 1;
-
-//     // Determine the status
-//     const status = cosmicLuckScore > 50 ? "Blessed" : "Cursed";
-
-//     // Display the results
-//     destinyZone.innerHTML = `
-//         <h2>✨ Your Cosmic Destiny ✨</h2>
-//         <p><strong>Name:</strong> ${name}</p>
-//         <p><strong>Zodiac Sign:</strong> ${zodiac}</p>
-//         <p><strong>Cosmic Luck Score:</strong> ${cosmicLuckScore}/100</p>
-//         <p><strong>Status:</strong> ${status}</p>
-//     };
-// });
+    archiveList.appendChild(li);
+  });
+}
+
+// Wraps the matched keyword in <mark> (works for any capitalization)
+function makeHighlighted(text, keyword) {
+  const frag = document.createDocumentFragment();
+  const start = text.toLowerCase().indexOf(keyword.toLowerCase());
+
+  frag.append(text.slice(0, start));
+  const mark = document.createElement("mark");
+  mark.textContent = text.slice(start, start + keyword.length);
+  frag.append(mark, text.slice(start + keyword.length));
+
+  return frag;
+}
+
+function searchFortunes() {
+  const keyword = searchInput.value.trim();
+  searchResult.className = "";
+
+  if (keyword === "") {
+    searchResult.textContent = "Type a keyword to search the cosmos.";
+    renderArchive();
+    return;
+  }
+
+  // BONUS: lowercase both sides so "WIND", "Wind" and "wind" all match
+  const match = fortunes.find(function (f) {
+    return f.toLowerCase().includes(keyword.toLowerCase());
+  });
+
+  if (match) {
+    searchResult.className = "found";
+    searchResult.textContent = "\u2726 Found: " + match;
+    renderArchive({ text: match, keyword: keyword });
+  } else {
+    searchResult.className = "notfound";
+    searchResult.textContent = "The cosmos holds no fortune with \"" + keyword + "\".";
+    renderArchive();
+  }
+}
+
+function sortArchive() {
+  fortunes.sort(function (a, b) {
+    return a.localeCompare(b);
+  });
+  searchResult.className = "";
+  searchResult.textContent = "Archive sorted alphabetically.";
+  renderArchive();
+}
+
+// 7. EVENT LISTENERS
+revealBtn.addEventListener("click", revealFate);
+searchBtn.addEventListener("click", searchFortunes);
+sortBtn.addEventListener("click", sortArchive);
+
+nameInput.addEventListener("keydown", function (e) {
+  if (e.key === "Enter") revealFate();
+});
+searchInput.addEventListener("keydown", function (e) {
+  if (e.key === "Enter") searchFortunes();
+});
+
+// Show the full archive when the page first loads
+renderArchive();
