@@ -10,7 +10,17 @@ const fortunes = [
     "Someone from your past will return with important news",
     "Trust your instincts when making your next big decision",
     "A journey will lead you toward an exciting discovery",
-    "Good fortune will find you when you stop looking for it"
+    "Good fortune will find you when you stop looking for it",
+    "A small risk taken today will grow into a great reward.",
+    "Words spoken in kindness will return to you tenfold.",
+    "A hidden talent is ready to be discovered, so stop doubting it.",
+    "Someone you admire will notice your hard work.",
+    "A misplaced opportunity will find its way back to your hands.",
+    "Let go of an old grudge, and a new path will appear.",
+    "The answer you have been seeking will arrive in a quiet moment.",
+    "Good news travels toward you from across the water.",
+    "A bold decision made before the week ends will change your luck.",
+    "Rest is not wasted time, because your greatest idea is still forming.",
 ];
 
 
